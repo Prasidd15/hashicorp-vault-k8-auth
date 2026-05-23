@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lending-app
+  namespace: finance
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lending
+  template:
+    metadata:
+      labels:
+        app: lending
+    spec:
+      serviceAccountName: lending-sa
+      containers:
+        - name: app
+          image: alpine:3.19
+          command: ["sh", "-c", "sleep infinity"]
+          env:
+            - name: VAULT_ADDR
+              value: "https://your-vault-address:8200"
+          volumeMounts:
+            - name: vault-token
+              mountPath: /var/run/secrets/vault
+              readOnly: true
+      volumes:
+        - name: vault-token
+          secret:
+            secretName: vault-auth-finance-token
+            items:
+              - key: token
+                path: token

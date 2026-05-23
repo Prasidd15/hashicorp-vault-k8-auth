@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vault-auth-finance-token
+  namespace: finance
+  annotations:
+    kubernetes.io/service-account.name: vault-auth-finance
+type: kubernetes.io/service-account-token

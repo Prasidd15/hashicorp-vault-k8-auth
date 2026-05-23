@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: vault-token-rotator-binding
+  namespace: finance
+subjects:
+  - kind: ServiceAccount
+    name: vault-token-rotator
+    namespace: finance
+roleRef:
+  kind: Role
+  apiGroup: rbac.authorization.k8s.io
+  name: vault-token-rotator-role
